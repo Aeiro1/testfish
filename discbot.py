@@ -6,12 +6,16 @@ token_file = open("token.txt")
 bot_token = token_file.read()
 
 bot = interactions.Client(intents=interactions.Intents.DEFAULT | interactions.Intents.MESSAGE_CONTENT, token=bot_token, 
-                           sync_interactions=True)
+                           delete_unused_application_cmds=True, sync_interactions=True)
 
 # delete_unused_application_cmds=True // on startup to reset any dup commands
 # debug_scope=1133920869773746359   //  debug scope to test server for insta sync commands
+# sync_interactions=True // sync commands globally
 
+# bot startup listener here
 @listen()
+async def on_ready():
+    print("ready")
 
 
 
@@ -20,6 +24,7 @@ bot = interactions.Client(intents=interactions.Intents.DEFAULT | interactions.In
     description="quits the bot",
     default_member_permissions=interactions.Permissions.ADMINISTRATOR,
 )
+@interactions.check(interactions.is_owner())
 async def exit_command_run(ctx: interactions.SlashContext):
     await ctx.send(ctx.author.mention + " quit the bot, Goodbye!" + (" (" + ctx.bot.owner.mention + " bot is down)"))
     await bot.stop()
@@ -70,6 +75,9 @@ async def fix_embed(event):
         await event.message.reply(fixed, allowed_mentions=interactions.AllowedMentions(replied_user=False), silent=True)
     elif "//x.com/" in fixed:
         fixed = fixed.replace("x", "fixvx")
+        await event.message.reply(fixed, allowed_mentions=interactions.AllowedMentions(replied_user=False), silent=True)
+    elif "//www.tiktok.com/" in fixed:
+        fixed = fixed.replace("tiktok", "tiktxk")
         await event.message.reply(fixed, allowed_mentions=interactions.AllowedMentions(replied_user=False), silent=True)
 
 @interactions.slash_command(
