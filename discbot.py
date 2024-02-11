@@ -121,6 +121,15 @@ async def coin_flip(ctx: interactions.SlashContext):
     coin = random.choice(["Heads", "Tails"])
     await ctx.send(coin, silent=True)
 
+@interactions.slash_command(
+    name="izsummon",
+    description="Summons Canadian"
+)
+async def summon_iz(ctx: interactions.SlashContext):
+    await ctx.send("https://cdn.discordapp.com/attachments/779520656516972549/1202395906582913168/Untitled-1.png?ex=65cd4d73&is=65bad873&hm=569f4586b336dff0b43dd123090bca7bdfc84bfe533207096f928fccb4804ffe& <@175346898721308672>",
+                   allowed_mentions=interactions.AllowedMentions(users=[175346898721308672, 197372711645872138]))
+
+
 bot.start()
 # while True:
 #     try:
